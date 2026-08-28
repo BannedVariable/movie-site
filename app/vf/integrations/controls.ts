@@ -18,11 +18,17 @@ export const handleControls = () => {
 
   if (!voroforce?.controls) return
 
-  const { controls } = voroforce
+  const { controls, cells } = voroforce
 
-  controls.listen('focused', (async ({ cell }: { cell: VoroforceCell }) => {
+  const onFocused = async ({ cell }: { cell: VoroforceCell }) => {
     if (cell) setFilm(await getCellFilm(cell, filmBatches))
-  }) as unknown as EventListener)
+  }
+
+  controls.listen('focused', onFocused as unknown as EventListener)
+
+  if (cells.focused) {
+    void onFocused({ cell: cells.focused })
+  }
 
   controls.listen('selected', (async ({ cell }: { cell: VoroforceCell }) => {
     if (cell) {

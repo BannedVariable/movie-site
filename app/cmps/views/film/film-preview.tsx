@@ -253,6 +253,11 @@ export const FilmPreview = ({ poster = false }) => {
     if (!cellsRef.current) cellsRef.current = cells as VoroforceCells
 
     controls.addEventListener('focused', onCellFocused)
+
+    if (cells.focused) {
+      onCellFocused({ cell: cells.focused })
+    }
+
     return () => {
       controls.removeEventListener('focused', onCellFocused)
     }
